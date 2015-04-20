@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit colors="true"
+         bootstrap="tests/bootstrap.php"
+        >
+    <testsuites>
+        <testsuite name="Postcode API Test Suite">
+            <directory suffix=".php">tests/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
