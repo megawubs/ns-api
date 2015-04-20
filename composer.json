@@ -1,9 +1,9 @@
 {
   "name": "wubs/postcode-api",
   "type": "library",
-  "description": "Communicates with the postcodeapi.nu api",
+  "description": "Communicates with the NS api",
   "keywords": [
-    "postcode",
+    "NS",
     "api",
     "wrapper"
   ],
