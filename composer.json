@@ -1,5 +1,5 @@
 {
-  "name": "wubs/postcode-api",
+  "name": "wubs/ns-api",
   "type": "library",
   "description": "Communicates with the NS api",
   "keywords": [
