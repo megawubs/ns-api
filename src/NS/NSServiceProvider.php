@@ -27,10 +27,19 @@ class NSServiceProvider extends ServiceProvider
     {
         $app = $this->app;
 
+        $app->singleton(
+            '\Wubs\NS\NSApi',
+            function ($app) {
+                $email = $app['config']->get('ns.email');
+                $key = $app['config']->get('ns.key');
+                return new NSApi($email, $key);
+            }
+        );
+
         $app->bind(
-            'zip',
+            'ns',
             function () use ($app) {
-                return new NSApi($app['config']->get('zip.key'));
+                return $app->make('\Wubs\NS\NSApi');
             }
         );
     }
