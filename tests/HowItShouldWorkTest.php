@@ -14,42 +14,42 @@ use Wubs\NS\Responses\Planner\Step;
 class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
 {
 
-//    public function testGetStationsList()
-//    {
-//        $api = new NSApi(getenv("NS_ACCOUNT_EMAIL"), getenv("NS_API_KEY"));
-//
-//        $stations = $api->stations();
-//
-//        $this->assertInstanceOf("Illuminate\\Support\\Collection", $stations);
-//        $this->assertInstanceOf("Wubs\\NS\\Responses\\Station", $stations[0]);
-//        $this->assertObjectHasAttribute("lat", $stations[0]);
-//        $this->assertObjectHasAttribute("long", $stations[0]);
-//        $this->assertObjectHasAttribute("name", $stations[0]);
-//        $this->assertNotNull($stations[0]->getName());
-//    }
-//
-//    /**
-//     *
-//     */
-//    public function testGetFailuresList()
-//    {
-//        $api = new NSApi(getenv("NS_ACCOUNT_EMAIL"), getenv("NS_API_KEY"));
-//        $failures = $api->failures("ut");
-//
-//        $this->assertInstanceOf('Illuminate\Support\Collection', $failures->planned);
-//        $this->assertInstanceOf('Illuminate\Support\Collection', $failures->unplanned);
-//
-//        foreach ($failures->planned as $plannedFailure) {
-//            $this->assertInstanceOf("Wubs\\NS\\Responses\\Failure", $plannedFailure);
-//        }
-//
-//        /** @var Failure $unplannedFailure */
-//        foreach ($failures->unplanned as $unplannedFailure) {
-//            $this->assertInstanceOf("Wubs\\NS\\Responses\\Failure", $unplannedFailure);
-//            $this->assertNotNull($unplannedFailure->getMessage());
-//            $this->assertNotNull($unplannedFailure->getId());
-//        }
-//    }
+    public function testGetStationsList()
+    {
+        $api = new NSApi(getenv("NS_ACCOUNT_EMAIL"), getenv("NS_API_KEY"));
+
+        $stations = $api->stations();
+
+        $this->assertInstanceOf("Illuminate\\Support\\Collection", $stations);
+        $this->assertInstanceOf("Wubs\\NS\\Responses\\Station", $stations[0]);
+        $this->assertObjectHasAttribute("lat", $stations[0]);
+        $this->assertObjectHasAttribute("long", $stations[0]);
+        $this->assertObjectHasAttribute("name", $stations[0]);
+        $this->assertNotNull($stations[0]->getName());
+    }
+
+    /**
+     *
+     */
+    public function testGetFailuresList()
+    {
+        $api = new NSApi(getenv("NS_ACCOUNT_EMAIL"), getenv("NS_API_KEY"));
+        $failures = $api->failures("ut");
+
+        $this->assertInstanceOf('Illuminate\Support\Collection', $failures->planned);
+        $this->assertInstanceOf('Illuminate\Support\Collection', $failures->unplanned);
+
+        foreach ($failures->planned as $plannedFailure) {
+            $this->assertInstanceOf("Wubs\\NS\\Responses\\Failure", $plannedFailure);
+        }
+
+        /** @var Failure $unplannedFailure */
+        foreach ($failures->unplanned as $unplannedFailure) {
+            $this->assertInstanceOf("Wubs\\NS\\Responses\\Failure", $unplannedFailure);
+            $this->assertNotNull($unplannedFailure->getMessage());
+            $this->assertNotNull($unplannedFailure->getId());
+        }
+    }
 
     public function testGetTripAdvise()
     {
