@@ -97,7 +97,7 @@ class NSApi implements Api
                 'auth' => $this->auth
             ]
         );
-        print_r($result->xml()->ReisMogelijkheid[0]);
+
         return $this->toTravelOptions($result->xml());
     }
 

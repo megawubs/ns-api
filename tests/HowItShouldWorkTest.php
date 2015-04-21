@@ -68,7 +68,7 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
         $advise = $advises->first();
         $this->assertInstanceOf('Wubs\NS\Responses\Planner\Option', $advise);
         foreach ($advise as $key => $value) {
-//            $this->assertNotNull($value);
+            $this->assertNotNull($value);
         }
 
         /** @var Step $part */
@@ -77,8 +77,5 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
 
         $stop = $part->wayPoints->first();
         $this->assertInstanceOf('Wubs\NS\Responses\Planner\WayPoint', $stop);
-
-        print_r($advises->first());
-
     }
 }
