@@ -22,6 +22,7 @@ class Failures implements Response
 
     public static function fromXML(\SimpleXMLElement $xml)
     {
+        write($xml->Ongepland, "failures_xml");
         $planned = static::toFailures($xml->Gepland);
         $unplanned = static::toFailures($xml->Ongepland);
         return new static($planned, $unplanned);

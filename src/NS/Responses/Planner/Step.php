@@ -102,10 +102,12 @@ class Step implements Response
     private static function toTripDetails(\SimpleXMLElement $tripDetailsXML)
     {
         $tripDetails = new Collection();
-
-        foreach ($tripDetailsXML->Reisdetail as $detail) {
-            $tripDetails->push((string)$detail);
+        if ($tripDetailsXML->Reisdetail instanceof \SimpleXMLElement) {
+            foreach ($tripDetailsXML->Reisdetail as $detail) {
+                $tripDetails->push((string)$detail);
+            }
         }
+
 
         return $tripDetails;
     }

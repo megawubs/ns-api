@@ -10,6 +10,8 @@ use Wubs\NS\Contracts\Response;
 
 class Failure implements Response
 {
+    use Time;
+
     public $id;
 
     public $route;
@@ -20,7 +22,7 @@ class Failure implements Response
 
     public $date;
 
-    private function __construct($date, $id, $message, $reason, $route)
+    private function __construct(Carbon $date, $id, $message, $reason, $route)
     {
         $this->date = $date;
         $this->id = $id;
@@ -31,12 +33,14 @@ class Failure implements Response
 
     public static function fromXML(\SimpleXMLElement $xml)
     {
+        $date = static::toCarbon((string)$xml->Datum);
         return new static(
+            $date,
             (string)$xml->Id,
-            (string)$xml->Traject,
-            (string)$xml->Reden,
             (string)$xml->Bericht,
-            (string)$xml->Datum
+            (string)$xml->Reden,
+            (string)$xml->Traject
+
         );
     }
 }

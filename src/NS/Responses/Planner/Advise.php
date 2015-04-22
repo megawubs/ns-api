@@ -4,11 +4,15 @@
 namespace Wubs\NS\Responses\Planner;
 
 
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Wubs\NS\Contracts\Response;
+use Wubs\NS\Responses\Time;
 
 class Advise implements Response
 {
+    use Time;
+
     public $notifications;
 
     public $numberOfSwitches;
@@ -38,17 +42,32 @@ class Advise implements Response
      */
     public $steps;
 
+    /**
+     * @param Carbon $actualArrivalTime
+     * @param Carbon $actualDepartureTime
+     * @param $actualTravelDuration
+     * @param $arrivalDelay
+     * @param $departureDelay
+     * @param $notifications
+     * @param $numberOfSwitches
+     * @param $optimal
+     * @param Carbon $plannedArrivalTime
+     * @param Carbon $plannedDepartureTime
+     * @param $plannedTravelDuration
+     * @param $state
+     * @param $steps
+     */
     function __construct(
-        $actualArrivalTime,
-        $actualDepartureTime,
+        Carbon $actualArrivalTime,
+        Carbon $actualDepartureTime,
         $actualTravelDuration,
         $arrivalDelay,
         $departureDelay,
         $notifications,
         $numberOfSwitches,
         $optimal,
-        $plannedArrivalTime,
-        $plannedDepartureTime,
+        Carbon $plannedArrivalTime,
+        Carbon $plannedDepartureTime,
         $plannedTravelDuration,
         $state,
         $steps
@@ -71,16 +90,16 @@ class Advise implements Response
     public static function fromXML(\SimpleXMLElement $xml)
     {
         return new static(
-            (string)$xml->ActueleAankomstTijd,
-            (string)$xml->ActueleVertrekTijd,
+            static::toCarbon((string)$xml->ActueleAankomstTijd),
+            static::toCarbon((string)$xml->ActueleVertrekTijd),
             (string)$xml->ActueleReisTijd,
             (string)$xml->AankomstVertraging,
             (string)$xml->VertrekVertraging,
             static::toNotifications($xml->Melding),
             (string)$xml->AantalOverstappen,
             (string)$xml->Optimaal,
-            (string)$xml->GeplandeAankomstTijd,
-            (string)$xml->GeplandeVertrekTijd,
+            static::toCarbon((string)$xml->GeplandeAankomstTijd),
+            static::toCarbon((string)$xml->GeplandeVertrekTijd),
             (string)$xml->ActueleReisTijd,
             (string)$xml->Status,
             static::toSteps($xml->ReisDeel)
