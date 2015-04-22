@@ -7,56 +7,45 @@ namespace Wubs\NS\Responses;
 use Illuminate\Support\Str;
 use Wubs\NS\Contracts\Station as StationInterface;
 
-class Station extends Response implements StationInterface
+class Station
 {
-    protected $name;
+    public $name;
 
-    protected $code;
+    public $code;
 
-    protected $country;
+    public $country;
 
-    protected $lat;
+    public $lat;
 
-    protected $long;
+    public $long;
 
-    protected $alias;
+    public $alias;
+
+    function __construct($alias, $code, $country, $lat, $long, $name)
+    {
+        $this->alias = $alias;
+        $this->code = $code;
+        $this->country = $country;
+        $this->lat = $lat;
+        $this->long = $long;
+        $this->name = $name;
+    }
+
 
     /**
-     * @param $xmlObject
+     * @param \SimpleXMLElement $xml
      * @return Station
      */
-    public static function create($xmlObject)
+    public static function fromXML(\SimpleXMLElement $xml)
     {
-        return new static($xmlObject);
-    }
 
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function getCode()
-    {
-        return $this->code;
-    }
-
-    public function getCountry()
-    {
-        return $this->country;
-    }
-
-    public function getLatitude()
-    {
-        return $this->lat;
-    }
-
-    public function getLongitude()
-    {
-        return $this->long;
-    }
-
-    public function isAlias()
-    {
-        return $this->alias;
+        return new static(
+            (string)$xml->alias,
+            (string)$xml->code,
+            (string)$xml->country,
+            (string)$xml->lat,
+            (string)$xml->long,
+            (string)$xml->name
+        );
     }
 }

@@ -14,7 +14,7 @@ use Illuminate\Support\Collection;
 use Wubs\NS\Contracts\Api;
 use Wubs\NS\Responses\Failure;
 use Wubs\NS\Responses\Failures;
-use Wubs\NS\Responses\Planner\Option;
+use Wubs\NS\Responses\Planner\Advise;
 use Wubs\NS\Responses\Station;
 
 class NSApi implements Api
@@ -77,7 +77,7 @@ class NSApi implements Api
                 'auth' => $this->auth
             ]
         );
-        return new Failures($result->xml());
+        return Failures::fromXML($result->xml());
     }
 
     /**
@@ -85,9 +85,9 @@ class NSApi implements Api
      * @param $toStation
      * @param $dateTime
      * @param $departure
-     * @return Collection|Option[]
+     * @return Collection|Advise[]
      */
-    public function tripAdvise($fromStation, $toStation, $dateTime, $departure)
+    public function advise($fromStation, $toStation, $dateTime, $departure)
     {
         $query = compact("fromStation", "toStation", "dateTime", "departure");
         $result = $this->client->get(
@@ -97,8 +97,8 @@ class NSApi implements Api
                 'auth' => $this->auth
             ]
         );
-
-        return $this->toTravelOptions($result->xml());
+        write($result->xml(), 'xml');
+        return $this->toAdvises($result->xml());
     }
 
     private function getClient()
@@ -114,20 +114,20 @@ class NSApi implements Api
      * @param $xml
      * @return Collection|Station[]
      */
-    private function toStations($xml)
+    private function toStations(\SimpleXMLElement $xml)
     {
         $stations = new Collection();
         foreach ($xml as $stationXmlObject) {
-            $stations->push(Station::create($stationXmlObject));
+            $stations->push(Station::fromXML($stationXmlObject));
         }
         return $stations;
     }
 
-    private function toTravelOptions($xml)
+    private function toAdvises(\SimpleXMLElement $xml)
     {
         $travelOptions = new Collection();
         foreach ($xml as $travelOptionXmlObject) {
-            $travelOptions->push(Option::create($travelOptionXmlObject));
+            $travelOptions->push(Advise::fromXML($travelOptionXmlObject));
         }
         return $travelOptions;
     }

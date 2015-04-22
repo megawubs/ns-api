@@ -6,46 +6,37 @@ namespace Wubs\NS\Responses;
 
 use Carbon\Carbon;
 use Wubs\NS\Contracts\Failure as FailureInterface;
+use Wubs\NS\Contracts\Response;
 
-class Failure extends Response implements FailureInterface
+class Failure implements Response
 {
-    protected $id;
+    public $id;
 
-    protected $traject;
+    public $route;
 
-    protected $reden;
+    public $reason;
 
-    protected $bericht;
+    public $message;
 
-    protected $datum;
+    public $date;
 
-    public static function create($xml)
+    private function __construct($date, $id, $message, $reason, $route)
     {
-        return new static($xml);
+        $this->date = $date;
+        $this->id = $id;
+        $this->message = $message;
+        $this->reason = $reason;
+        $this->route = $route;
     }
 
-    public function getId()
+    public static function fromXML(\SimpleXMLElement $xml)
     {
-        return $this->id;
-    }
-
-    public function getRoute()
-    {
-        return $this->traject;
-    }
-
-    public function getReason()
-    {
-        return $this->reden;
-    }
-
-    public function getMessage()
-    {
-        return $this->bericht;
-    }
-
-    public function getDate()
-    {
-        return Carbon::createFromTimestampUTC($this->datum);
+        return new static(
+            (string)$xml->Id,
+            (string)$xml->Traject,
+            (string)$xml->Reden,
+            (string)$xml->Bericht,
+            (string)$xml->Datum
+        );
     }
 }

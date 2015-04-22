@@ -7,6 +7,6 @@ interface Api
 
     public function failures($station, $actual = true, $future = false);
 
-    public function tripAdvise($fromStation, $toStation, $dateTime, $departure);
+    public function advise($fromStation, $toStation, $dateTime, $departure);
 
 }

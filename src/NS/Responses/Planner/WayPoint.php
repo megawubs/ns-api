@@ -5,8 +5,9 @@ namespace Wubs\NS\Responses\Planner;
 
 
 use Carbon\Carbon;
+use Wubs\NS\Contracts\Response;
 
-class WayPoint
+class WayPoint implements Response
 {
     public $name;
 
@@ -16,11 +17,21 @@ class WayPoint
 
     public $track;
 
-    public function __construct($stop)
+    private function __construct($departureDelay, $name, $time, $track)
     {
-        $this->name = (string)$stop->Naam;
-        $this->time = (string)$stop->Tijd;
-        $this->departureDelay = (string)$stop->VertrekVertraging;
-        $this->track = (string)$stop->Spoor;
+        $this->departureDelay = $departureDelay;
+        $this->name = $name;
+        $this->time = $time;
+        $this->track = $track;
+    }
+
+    public static function fromXML(\SimpleXMLElement $xml)
+    {
+        return new static(
+            (string)$xml->VertrekVertraging,
+            (string)$xml->Naam,
+            (string)$xml->Tijd,
+            (string)$xml->Spoor
+        );
     }
 }
