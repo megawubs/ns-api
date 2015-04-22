@@ -15,7 +15,7 @@ class NS extends Facade
 
     protected static function getFacadeAccessor()
     {
-        return "zip";
+        return "ns";
     }
 
 }

@@ -100,8 +100,3 @@ $wayPoint->time; //Carbon
 $wayPoint->departureDelay;
 $wayPoint->track;
 ```
-
-
-
-
-
