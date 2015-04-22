@@ -97,7 +97,7 @@ class NSApi implements Api
                 'auth' => $this->auth
             ]
         );
-        write($result->xml(), 'xml');
+
         return $this->toAdvises($result->xml());
     }
 
