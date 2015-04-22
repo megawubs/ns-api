@@ -15,7 +15,7 @@ class NSServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->publishes([__DIR__ . '/config/NS.php' => config_path('NS.php')]);
+        $this->publishes([__DIR__ . '/config/ns.php' => config_path('ns.php')]);
     }
 
     /**
