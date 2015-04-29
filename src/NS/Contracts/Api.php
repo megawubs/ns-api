@@ -1,5 +1,7 @@
 <?php namespace Wubs\NS\Contracts;
 
+use Carbon\Carbon;
+
 interface Api
 {
 
@@ -7,6 +9,6 @@ interface Api
 
     public function failures($station, $actual = true, $future = false);
 
-    public function advise($fromStation, $toStation, $dateTime, $departure);
+    public function advise($fromStation, $toStation, Carbon $dateTime, $departure);
 
 }

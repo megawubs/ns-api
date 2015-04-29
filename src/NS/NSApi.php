@@ -9,6 +9,7 @@
 namespace Wubs\NS;
 
 
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
 use Wubs\NS\Contracts\Api;
@@ -87,8 +88,9 @@ class NSApi implements Api
      * @param $departure
      * @return Collection|Advise[]
      */
-    public function advise($fromStation, $toStation, $dateTime, $departure)
+    public function advise($fromStation, $toStation, Carbon $dateTime, $departure)
     {
+        $dateTime = $dateTime->toIso8601String();
         $query = compact("fromStation", "toStation", "dateTime", "departure");
         $result = $this->client->get(
             '/ns-api-treinplanner',

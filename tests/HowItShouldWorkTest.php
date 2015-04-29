@@ -61,7 +61,7 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
         $advises = $api->advise(
             "Utrecht Centraal",
             "Wierden",
-            Carbon::now(new DateTimeZone("Europe/Amsterdam"))->toIso8601String(),
+            Carbon::now(new DateTimeZone("Europe/Amsterdam")),
             true
         );
 
@@ -95,7 +95,7 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
         $advises = $api->advise(
             "Aalten",
             "Zurich",
-            Carbon::now(new DateTimeZone("Europe/Amsterdam"))->toIso8601String(),
+            Carbon::now(new DateTimeZone("Europe/Amsterdam")),
             true
         );
 
