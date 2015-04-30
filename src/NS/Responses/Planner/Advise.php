@@ -130,4 +130,14 @@ class Advise implements Response
 
         return $notifications;
     }
+
+    public function toJson()
+    {
+        return json_encode($this);
+    }
+
+    public function __toString()
+    {
+        return $this->toJson();
+    }
 }

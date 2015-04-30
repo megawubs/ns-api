@@ -36,4 +36,14 @@ class Failures implements Response
         }
         return $failures;
     }
+
+    public function toJson()
+    {
+        return json_encode($this);
+    }
+
+    public function __toString()
+    {
+        return $this->toJson();
+    }
 }
