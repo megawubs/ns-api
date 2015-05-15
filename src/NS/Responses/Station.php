@@ -23,7 +23,7 @@ class Station
 
     function __construct($alias, $code, $country, $lat, $long, $name)
     {
-        $this->alias = $alias;
+        $this->alias = ($alias == "true") ? true : false;
         $this->code = $code;
         $this->country = $country;
         $this->lat = $lat;
