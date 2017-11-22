@@ -8,6 +8,7 @@ use Wubs\NS\Contracts\Response;
 
 class Notification implements Response
 {
+
     public $id;
 
     public $serious;

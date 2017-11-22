@@ -12,5 +12,5 @@ return [
     |
     */
     "email" => env("NS_EMAIL", "YOUR_NS_EMAIL_HERE"),
-    "key" => env("NS_API_KEY", "YOUR_KEY_HERE")
+    "key"   => env("NS_API_KEY", "YOUR_KEY_HERE")
 ];

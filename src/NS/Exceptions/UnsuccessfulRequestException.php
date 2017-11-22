@@ -11,5 +11,6 @@ namespace Wubs\NS\Exception;
 
 class UnsuccessfulRequestException extends \Exception
 {
+
     protected $message = "The request returned an error, please try again";
 }

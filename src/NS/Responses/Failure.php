@@ -5,11 +5,11 @@ namespace Wubs\NS\Responses;
 
 
 use Carbon\Carbon;
-use Wubs\NS\Contracts\Failure as FailureInterface;
 use Wubs\NS\Contracts\Response;
 
 class Failure implements Response
 {
+
     use Time;
 
     public $id;
@@ -34,6 +34,7 @@ class Failure implements Response
     public static function fromXML(\SimpleXMLElement $xml)
     {
         $date = static::toCarbon((string)$xml->Datum);
+
         return new static(
             $date,
             (string)$xml->Id,

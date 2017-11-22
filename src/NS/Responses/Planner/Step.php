@@ -9,6 +9,7 @@ use Wubs\NS\Contracts\Response;
 
 class Step implements Response
 {
+
     public $carrier;
 
     public $carrierType;
@@ -65,6 +66,7 @@ class Step implements Response
 
     /**
      * @param \SimpleXMLElement $xml
+     *
      * @return Step
      */
     public static function fromXML(\SimpleXMLElement $xml)
@@ -83,32 +85,35 @@ class Step implements Response
         );
     }
 
-
-    /**
-     * @param \SimpleXMLElement $wayPointsXML
-     * @return Collection|WayPoint[]
-     */
-    private static function toWayPoints(\SimpleXMLElement $wayPointsXML)
-    {
-        $wayPoints = new Collection();
-
-        foreach ($wayPointsXML as $wayPoint) {
-            $wayPoints->push(WayPoint::fromXML($wayPoint));
-        }
-
-        return $wayPoints;
-    }
-
     private static function toTripDetails(\SimpleXMLElement $tripDetailsXML)
     {
         $tripDetails = new Collection();
-        if ($tripDetailsXML->Reisdetail instanceof \SimpleXMLElement) {
-            foreach ($tripDetailsXML->Reisdetail as $detail) {
+        if ($tripDetailsXML->Reisdetail instanceof \SimpleXMLElement)
+        {
+            foreach ($tripDetailsXML->Reisdetail as $detail)
+            {
                 $tripDetails->push((string)$detail);
             }
         }
 
 
         return $tripDetails;
+    }
+
+    /**
+     * @param \SimpleXMLElement $wayPointsXML
+     *
+     * @return Collection|WayPoint[]
+     */
+    private static function toWayPoints(\SimpleXMLElement $wayPointsXML)
+    {
+        $wayPoints = new Collection();
+
+        foreach ($wayPointsXML as $wayPoint)
+        {
+            $wayPoints->push(WayPoint::fromXML($wayPoint));
+        }
+
+        return $wayPoints;
     }
 }

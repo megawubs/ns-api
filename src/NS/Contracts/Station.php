@@ -6,6 +6,7 @@ namespace Wubs\NS\Contracts;
 
 interface Station
 {
+
     public static function create($data);
 
     public function getName();

@@ -1,8 +1,9 @@
 <?php
+
 use Carbon\Carbon;
+use PHPUnit\Framework\TestCase;
 use Wubs\NS\NSApi;
 use Wubs\NS\Responses\Failure;
-use Wubs\NS\Responses\Planner\Advise;
 use Wubs\NS\Responses\Planner\Step;
 
 /**
@@ -11,10 +12,13 @@ use Wubs\NS\Responses\Planner\Step;
  * Date: 17/04/15
  * Time: 10:30
  */
-class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
+class HowItShouldWorkTest extends TestCase
 {
 
-    public function testGetStationsList()
+    /**
+     * @test
+     */
+    public function get_stations_list()
     {
         date_default_timezone_set('Europe/Amsterdam');
         $api = new NSApi(getenv("NS_ACCOUNT_EMAIL"), getenv("NS_API_KEY"));
@@ -30,9 +34,9 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     *
+     * @test
      */
-    public function testGetFailuresList()
+    public function get_failures_list()
     {
         $api = new NSApi(getenv("NS_ACCOUNT_EMAIL"), getenv("NS_API_KEY"));
         $failures = $api->failures("ut");
@@ -40,12 +44,14 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Illuminate\Support\Collection', $failures->planned);
         $this->assertInstanceOf('Illuminate\Support\Collection', $failures->unplanned);
 
-        foreach ($failures->planned as $plannedFailure) {
+        foreach ($failures->planned as $plannedFailure)
+        {
             $this->assertInstanceOf("Wubs\\NS\\Responses\\Failure", $plannedFailure);
         }
 
         /** @var Failure $unplannedFailure */
-        foreach ($failures->unplanned as $unplannedFailure) {
+        foreach ($failures->unplanned as $unplannedFailure)
+        {
             $this->assertInstanceOf("Wubs\\NS\\Responses\\Failure", $unplannedFailure);
             $this->assertNotNull($unplannedFailure->message);
             $this->assertNotNull($unplannedFailure->id);
@@ -54,7 +60,10 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
         write($failures->unplanned->toJson(JSON_PRETTY_PRINT), 'failures');
     }
 
-    public function testGetTripAdvise()
+    /**
+     * @test
+     */
+    public function get_trip_advise()
     {
         $api = new NSApi(getenv("NS_ACCOUNT_EMAIL"), getenv("NS_API_KEY"));
 
@@ -70,7 +79,8 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
         /** @var Option $advise */
         $advise = $advises->first();
         $this->assertInstanceOf('Wubs\NS\Responses\Planner\Advise', $advise);
-        foreach ($advise as $key => $value) {
+        foreach ($advise as $key => $value)
+        {
             $this->assertNotNull($value);
         }
 
@@ -82,31 +92,33 @@ class HowItShouldWorkTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Wubs\NS\Responses\Planner\WayPoint', $stop);
     }
 
-    public function testDatesAreCarbonObject()
+    /**
+     * @test
+     */
+    public function dates_are_carbon_object()
     {
         $api = new NSApi(getenv("NS_ACCOUNT_EMAIL"), getenv("NS_API_KEY"));
 
-//        $stations = $api->stations();
-//        $from = $stations->random()->name;
-//        $to = $stations->random()->name;
-//
-//        echo "We are traveling from " . $from . " to " . $to . "\n";
-        // Aalten -> Zurich
+        // Aalten -> Wierden
         $advises = $api->advise(
             "Aalten",
-            "Zurich",
+            "Wierden",
             Carbon::now(new DateTimeZone("Europe/Amsterdam")),
             true
         );
 
-        foreach ($advises as $advise) {
+        foreach ($advises as $advise)
+        {
             $this->assertInstanceOf(Carbon::class, $advise->actualArrivalTime);
             $this->assertInstanceOf(Carbon::class, $advise->actualDepartureTime);
             $this->assertInstanceOf(Carbon::class, $advise->plannedDepartureTime);
             $this->assertInstanceOf(Carbon::class, $advise->actualDepartureTime);
-            foreach ($advise->steps as $step) {
-                foreach ($step->wayPoints as $wayPoint) {
-                    if (!is_null($wayPoint->time)) {
+            foreach ($advise->steps as $step)
+            {
+                foreach ($step->wayPoints as $wayPoint)
+                {
+                    if ( ! is_null($wayPoint->time))
+                    {
                         $this->assertInstanceOf(Carbon::class, $wayPoint->time);
                     }
                 }

@@ -4,7 +4,7 @@ use Dotenv\Dotenv;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-(new Dotenv())->load(__DIR__ . "/../");
+(new Dotenv(__DIR__ . "/../"))->load();
 
 function write($object, $fileName)
 {

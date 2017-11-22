@@ -11,6 +11,7 @@ use Wubs\NS\Responses\Time;
 
 class Advise implements Response
 {
+
     use Time;
 
     public $notifications;
@@ -45,17 +46,17 @@ class Advise implements Response
     /**
      * @param Carbon $actualArrivalTime
      * @param Carbon $actualDepartureTime
-     * @param $actualTravelDuration
-     * @param $arrivalDelay
-     * @param $departureDelay
-     * @param $notifications
-     * @param $numberOfSwitches
-     * @param $optimal
+     * @param        $actualTravelDuration
+     * @param        $arrivalDelay
+     * @param        $departureDelay
+     * @param        $notifications
+     * @param        $numberOfSwitches
+     * @param        $optimal
      * @param Carbon $plannedArrivalTime
      * @param Carbon $plannedDepartureTime
-     * @param $plannedTravelDuration
-     * @param $state
-     * @param $steps
+     * @param        $plannedTravelDuration
+     * @param        $state
+     * @param        $steps
      */
     function __construct(
         Carbon $actualArrivalTime,
@@ -106,38 +107,41 @@ class Advise implements Response
         );
     }
 
-    /**
-     * @param $steps
-     * @return Collection|Step[]
-     */
-    private static function toSteps($steps)
-    {
-        $parts = new Collection();
-        foreach ($steps as $step) {
-            $parts->push(Step::fromXML($step));
-        }
-
-        return $parts;
-    }
-
     public static function toNotifications($notificationsXML)
     {
         $notifications = new Collection();
 
-        foreach ($notificationsXML as $notification) {
+        foreach ($notificationsXML as $notification)
+        {
             $notifications->push(Notification::fromXML($notification));
         }
 
         return $notifications;
     }
 
-    public function toJson()
+    /**
+     * @param $steps
+     *
+     * @return Collection|Step[]
+     */
+    private static function toSteps($steps)
     {
-        return json_encode($this);
+        $parts = new Collection();
+        foreach ($steps as $step)
+        {
+            $parts->push(Step::fromXML($step));
+        }
+
+        return $parts;
     }
 
     public function __toString()
     {
         return $this->toJson();
+    }
+
+    public function toJson()
+    {
+        return json_encode($this);
     }
 }
