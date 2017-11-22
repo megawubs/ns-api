@@ -56,8 +56,6 @@ class HowItShouldWorkTest extends TestCase
             $this->assertNotNull($unplannedFailure->message);
             $this->assertNotNull($unplannedFailure->id);
         }
-
-        write($failures->unplanned->toJson(JSON_PRETTY_PRINT), 'failures');
     }
 
     /**
@@ -124,7 +122,5 @@ class HowItShouldWorkTest extends TestCase
                 }
             }
         }
-
-        write($advises->toJson(JSON_PRETTY_PRINT), "objects");
     }
 }
