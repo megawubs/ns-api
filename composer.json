@@ -14,7 +14,7 @@
     }
   ],
   "require": {
-    "php": ">=5.5",
+    "php": ">=7.0",
     "illuminate/support": "5.5.x",
     "nesbot/carbon": "~1.18",
     "guzzlehttp/guzzle": "^6.3"
