@@ -32,6 +32,7 @@ class NSServiceProvider extends ServiceProvider
             function ($app) {
                 $email = $app['config']->get('ns.email');
                 $key = $app['config']->get('ns.key');
+
                 return new NSApi($email, $key);
             }
         );

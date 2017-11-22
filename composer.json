@@ -10,19 +10,18 @@
   "authors": [
     {
       "name": "Bram Wubs",
-      "email": "bram.wubs@gmail.com",
-      "homepage": "http://blog.wubsinfo.nl"
+      "email": "bwubs@me.com"
     }
   ],
   "require": {
-    "php": ">=5.5",
-    "guzzlehttp/guzzle": "5.2.0",
-    "illuminate/support": "5.0.x",
-    "nesbot/carbon": "1.18.0"
+    "php": ">=7.0",
+    "illuminate/support": "5.5.x",
+    "nesbot/carbon": "~1.18",
+    "guzzlehttp/guzzle": "^6.3"
   },
   "require-dev": {
-    "vlucas/phpdotenv": "2.x-dev",
-    "phpunit/phpunit": "~4.0"
+    "vlucas/phpdotenv": "2.x",
+    "phpunit/phpunit": "~6.0"
   },
   "autoload": {
     "psr-4": {

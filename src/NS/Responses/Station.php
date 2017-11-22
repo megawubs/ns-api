@@ -4,11 +4,9 @@
 namespace Wubs\NS\Responses;
 
 
-use Illuminate\Support\Str;
-use Wubs\NS\Contracts\Station as StationInterface;
-
 class Station
 {
+
     public $name;
 
     public $code;
@@ -34,6 +32,7 @@ class Station
 
     /**
      * @param \SimpleXMLElement $xml
+     *
      * @return Station
      */
     public static function fromXML(\SimpleXMLElement $xml)

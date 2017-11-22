@@ -10,6 +10,7 @@ use Wubs\NS\Responses\Time;
 
 class WayPoint implements Response
 {
+
     use Time;
 
     public $name;
@@ -24,10 +25,10 @@ class WayPoint implements Response
     public $track;
 
     /**
-     * @param $departureDelay
-     * @param $name
+     * @param        $departureDelay
+     * @param        $name
      * @param Carbon $time
-     * @param $track
+     * @param        $track
      */
     private function __construct($departureDelay, $name, Carbon $time = null, $track)
     {

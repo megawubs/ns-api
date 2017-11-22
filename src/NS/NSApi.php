@@ -12,14 +12,21 @@ namespace Wubs\NS;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
+use Psr\Http\Message\ResponseInterface;
+use SimpleXMLElement;
 use Wubs\NS\Contracts\Api;
-use Wubs\NS\Responses\Failure;
 use Wubs\NS\Responses\Failures;
 use Wubs\NS\Responses\Planner\Advise;
 use Wubs\NS\Responses\Station;
 
+/**
+ * Class NSApi
+ *
+ * @package Wubs\NS
+ */
 class NSApi implements Api
 {
+
     /**
      * @var
      */
@@ -39,6 +46,9 @@ class NSApi implements Api
      */
     private $baseUrl = "http://webservices.ns.nl";
 
+    /**
+     * @var array
+     */
     private $auth = [];
 
     /**
@@ -53,6 +63,17 @@ class NSApi implements Api
         $this->auth = [$this->email, $this->key];
     }
 
+    /**
+     * @return \GuzzleHttp\Client
+     */
+    private function getClient()
+    {
+        return new Client(
+            [
+                'base_uri' => $this->baseUrl
+            ]
+        );
+    }
 
     /**
      * @return Collection|Station[]
@@ -60,13 +81,33 @@ class NSApi implements Api
     public function stations()
     {
         $result = $this->client->get('/ns-api-stations', ['auth' => $this->auth]);
-        return $this->toStations($result->xml());
+
+        return $this->toStations($result);
     }
 
     /**
-     * @param $station
+     * @param ResponseInterface $response
+     *
+     * @return Collection|Station[]
+     */
+    private function toStations(ResponseInterface $response)
+    {
+        $xml = new SimpleXMLElement($response->getBody()
+                                             ->getContents());
+        $stations = new Collection();
+        foreach ($xml as $stationXmlObject)
+        {
+            $stations->push(Station::fromXML($stationXmlObject));
+        }
+
+        return $stations;
+    }
+
+    /**
+     * @param        $station
      * @param string $actual
      * @param string $future
+     *
      * @return Failures
      */
     public function failures($station, $actual = "true", $future = "false")
@@ -75,10 +116,14 @@ class NSApi implements Api
             '/ns-api-storingen',
             [
                 'query' => ['station' => $station, 'actual' => $actual, 'unplanned' => $future],
-                'auth' => $this->auth
+                'auth'  => $this->auth
             ]
         );
-        return Failures::fromXML($result->xml());
+
+        $result = new SimpleXMLElement($result->getBody()
+                                              ->getContents());
+
+        return Failures::fromXML($result);
     }
 
     /**
@@ -86,6 +131,7 @@ class NSApi implements Api
      * @param $toStation
      * @param $dateTime
      * @param $departure
+     *
      * @return Collection|Advise[]
      */
     public function advise($fromStation, $toStation, Carbon $dateTime, $departure)
@@ -96,41 +142,28 @@ class NSApi implements Api
             '/ns-api-treinplanner',
             [
                 'query' => $query,
-                'auth' => $this->auth
+                'auth'  => $this->auth
             ]
         );
 
-        return $this->toAdvises($result->xml());
-    }
-
-    private function getClient()
-    {
-        return new Client(
-            [
-                'base_url' => $this->baseUrl
-            ]
-        );
+        return $this->toAdvises($result);
     }
 
     /**
-     * @param $xml
-     * @return Collection|Station[]
+     * @param ResponseInterface $response
+     *
+     * @return \Illuminate\Support\Collection
      */
-    private function toStations(\SimpleXMLElement $xml)
+    private function toAdvises(ResponseInterface $response)
     {
-        $stations = new Collection();
-        foreach ($xml as $stationXmlObject) {
-            $stations->push(Station::fromXML($stationXmlObject));
-        }
-        return $stations;
-    }
-
-    private function toAdvises(\SimpleXMLElement $xml)
-    {
+        $xml = new SimpleXMLElement($response->getBody()
+                                             ->getContents());
         $travelOptions = new Collection();
-        foreach ($xml as $travelOptionXmlObject) {
+        foreach ($xml as $travelOptionXmlObject)
+        {
             $travelOptions->push(Advise::fromXML($travelOptionXmlObject));
         }
+
         return $travelOptions;
     }
 }
